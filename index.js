@@ -1,7 +1,7 @@
 const fs = require('fs');
 const att = getEntrants();
 const list = att.split('\n');
-const east = ["ME","NH","VT","NY","MA","RI","CT","NJ","PA","DE","MD","MI","OH","IN","IL","WI","Vi","VA","NC","TN","KY","Ca","GA","AL","MS","FL","MN","IA","MO","AR","LA"];
+const east = ["ME","NH","VT","NY","MA","RI","CT","NJ","PA","DE","MD","MI","OH","IN","IL","WI","Vi","VA","NC","TN","KY","Ca","GA","AL","MS","FL","MN","IA","MO","AR","LA","ON","QC","PEI","NS","NB"];
 let eNum = 0;
 let wNum = 0;
 let mNum = 0;
@@ -9,10 +9,9 @@ let cNum = 0;
 let west = [];
 let eEnt = [];
 let mex = [];
-let can = [];
 for(let i = 1; i<list.length; i++){
 	let entrant = list[i].split(',');
-	if(entrant[13] == "United States"){
+	if(entrant[13] == "United States" || entrant[13] == "Canada"){
 		if(east.includes(entrant[11])){
 			eNum++;
 			eEnt.push(entrant);
@@ -22,15 +21,9 @@ for(let i = 1; i<list.length; i++){
 			west.push(entrant);
 		}
 	}
-	else{
-		if(entrant[13] == "Mexico"){
-			mNum++;
-			mex.push(entrant);
-		}
-		else if(entrant[13] == "Canada"){
-			cNum++;
-			can.push(entrant);
-		}
+	else if(entrant[13] == "Mexico"){
+		mNum++;
+		mex.push(entrant);
 	}
 }
 function getCsv(inList){
@@ -61,9 +54,8 @@ if (!fs.existsSync('./out')){
 fs.writeFileSync('out/west.csv',getCsv(west));
 fs.writeFileSync('out/east.csv',getCsv(eEnt));
 fs.writeFileSync('out/mexico.csv',getCsv(mex));
-fs.writeFileSync('out/canada.csv',getCsv(can));
 console.log("East: "+eNum);
 console.log("West: "+wNum);
 console.log("Mexico: "+mNum);
-console.log("Canada: "+cNum+"\n Press Control C or close this window to exit");
+console.log("Press Control C or close this window to exit");
 while(true){}
